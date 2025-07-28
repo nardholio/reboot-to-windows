@@ -24,13 +24,24 @@ cd Reboot-To-Windows/
 
 3. Inspect the source code as usual before running random scripts from the internet.
 
-3. Once happy, run the installer. To install the program locally, run `./install.sh`. To install the program for all users, run `sudo ./install.sh` (requires root permissions).
+3. Once happy, run the installer. To install the program for all users, run `sudo ./install.sh` (requires root permissions).
 
 The 'Windows' app should now be available in your desktop environment.
 
+#### Polkit Configuration for Passwordless Execution
+For seamless, passwordless execution of `reboot-to-windows`, this program uses Polkit.
+
+The Polkit files are *not* installed automatically. These files allow users in the `wheel` group to execute the `reboot-to-windows` command without requiring a password. If you wish to enable passwordless execution, you must manually copy these files like so:
+
+```bash
+sudo cp polkit/wartybix.reboot-to-windows.policy /usr/share/polkit-1/actions/
+sudo cp polkit/50-wartybix.reboot-to-windows.rules /usr/share/polkit-1/rules.d/
+```
+
+After copying the files, ensure your user account is part of the `wheel` group.
+
 #### Uninstall
 If you want to remove this program, run the uninstaller in the repository folder.
-To uninstall a local installation, run `./uninstall.sh`.
 To uninstall the program for all users, run `sudo ./uninstall.sh`.
 
 #### Updating
@@ -41,4 +52,3 @@ This issue is not present when using the Pacman package of this script.
 
 # Attributions
 Thank you to Wikimedia Commons for hosting [the file for the Windows logo](https://en.m.wikipedia.org/wiki/File:Windows_logo_-_2021.svg), which is used as a layer of the icon for this program's `.desktop` file.
-

@@ -1,22 +1,30 @@
 #!/bin/sh
 
-if [ $UID == 0 ]; then
-	ICON_LOCATION=/usr/share/pixmaps/
-	EXECUTABLE_LOCATION=/usr/bin/reboot-to-windows
-	DESKTOP_FILE=reboot-to-windows.root.desktop
-	DESKTOP_FILE_LOCATION=/usr/share/applications/reboot-to-windows.desktop
-else
-	ICON_LOCATION=~/.local/share/icons/
-	EXECUTABLE_LOCATION=~/.local/bin/
-	DESKTOP_FILE=reboot-to-windows.user.desktop
-	DESKTOP_FILE_DIR=~/.local/share/applications/
-	DESKTOP_FILE_LOCATION=$DESKTOP_FILE_DIR/reboot-to-windows.desktop
-
-	mkdir -p $ICON_LOCATION $EXECUTABLE_LOCATION $DESKTOP_FILE_DIR
+if [ $UID != 0 ]; then
+    echo "Please run this installer as root."
+    exit 1
 fi
 
-cp icons/reboot-to-windows.svg $ICON_LOCATION
-cp reboot-to-windows.sh $EXECUTABLE_LOCATION
-cp $DESKTOP_FILE $DESKTOP_FILE_LOCATION
+ICON_LOCATION=/usr/share/pixmaps/reboot-to-windows.svg
+EXECUTABLE_LOCATION=/usr/bin/reboot-to-windows
+WRAPPER_LOCATION=/usr/lib/reboot-to-windows-pkexec.sh
+DESKTOP_FILE_LOCATION=/usr/share/applications/reboot-to-windows.desktop
 
-sh kde_check.sh
+install -Dm644 icons/reboot-to-windows.svg "$ICON_LOCATION"
+install -Dm755 scripts/reboot-to-windows.sh "$EXECUTABLE_LOCATION"
+install -Dm755 scripts/reboot-to-windows-pkexec.sh "$WRAPPER_LOCATION"
+install -Dm644 reboot-to-windows.desktop "$DESKTOP_FILE_LOCATION"
+
+if [ "$DESKTOP_SESSION" = "plasma" ]; then # If user running KDE Plasma:
+    # Check for 'qdbus' command. If empty, set to -1.
+    QDBUS=`which qdbus 2>/dev/null || echo -1`
+    if [ "$QDBUS" = "-1" ]; then # If qdbus command not found:
+        echo "Install the 'qt' or 'qt5-tools' or similar package from your package manager to provide support for KDE's reboot prompt."
+    fi
+fi
+
+echo "**********************************************************************"
+echo "To allow wheel users to reboot to Windows without a password, copy the polkit files:"
+echo "  sudo cp ./polkit/wartybix.reboot-to-windows.policy /usr/share/polkit-1/actions/"
+echo "  sudo cp ./polkit/50-wartybix.reboot-to-windows.rules /usr/share/polkit-1/rules.d/"
+echo "**********************************************************************"
