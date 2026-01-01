@@ -24,7 +24,6 @@ if [ "$DESKTOP_SESSION" = "plasma" ]; then # If user running KDE Plasma:
 fi
 
 echo "**********************************************************************"
-echo "To allow wheel users to reboot to Windows without a password, copy the polkit files:"
-echo "  sudo cp ./polkit/wartybix.reboot-to-windows.policy /usr/share/polkit-1/actions/"
+echo "To allow wheel users to reboot to Windows without a password, copy the polkit rule:"
 echo "  sudo cp ./polkit/50-wartybix.reboot-to-windows.rules /usr/share/polkit-1/rules.d/"
 echo "**********************************************************************"

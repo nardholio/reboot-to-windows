@@ -1,5 +1,6 @@
 polkit.addRule(function(action, subject) {
-    if (action.id == "org.wartybix.reboot-to-windows.pkexec" && 
+    if (action.id == "org.freedesktop.policykit.exec" &&
+        action.lookup("program") == "/usr/bin/reboot-to-windows" &&
         subject.isInGroup("wheel")) {
         return polkit.Result.YES;
     }

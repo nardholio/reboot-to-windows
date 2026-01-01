@@ -15,4 +15,4 @@ rm $EXECUTABLE
 rm $WRAPPER_FILE
 rm $DESKTOP_FILE
 
-echo "Don't forget: If you used the polkit files for passwordless rebooting, these may still be at /usr/share/polkit-1/actions/wartybix.reboot-to-windows.policy and /usr/share/polkit-1/rules.d/50-wartybix.reboot-to-windows.rules"
+echo "Don't forget: If you used the polkit rule for passwordless rebooting, it may still be at /usr/share/polkit-1/rules.d/50-wartybix.reboot-to-windows.rules"
