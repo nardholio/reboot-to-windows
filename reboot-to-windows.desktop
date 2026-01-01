@@ -1,7 +1,12 @@
 [Desktop Entry]
-Name=Windows
-Comment=Reboot to Windows
+Name=Reboot to Windows
+Comment=Reboot the system directly into Windows
 Exec=reboot-to-windows
 Icon=reboot-to-windows
 Type=Application
 Terminal=false
+Categories=Utility;System;Settings;
+StartupNotify=true
+Keywords=reboot;windows;boot;
+NoDisplay=false
+X-GNOME-UsesNotifications=true
