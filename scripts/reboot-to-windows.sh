@@ -66,7 +66,11 @@ if [ "$NEEDS_SET_BOOT" = "1" ] || [ "$NEEDS_PKEXEC" = "1" ]; then
         fi
     fi
     pkexec sh -c "$CMD"
-else
-    # No privilege needed — just show the desktop's native reboot prompt
+fi
+
+# If we reach here, either:
+# - No privileged action was needed, or
+# - We just set BootNext but the DE can handle the reboot prompt itself
+if [ "$NEEDS_PKEXEC" = "0" ]; then
     eval "$REBOOT_CMD"
 fi
